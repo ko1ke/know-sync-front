@@ -21,7 +21,9 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      textDecoration: ['active'],
+    },
   },
   plugins: [require('@tailwindcss/forms')],
 };
