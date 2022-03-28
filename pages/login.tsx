@@ -1,18 +1,22 @@
 import type { NextPage } from 'next';
-import React, { useEffect, useState } from 'react';
+import type { SignUpItem } from '../types/Auth';
+import React from 'react';
 import * as Yup from 'yup';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import Button from '../components/common/Button';
 import FormikTextInput from '../components/common/FormikTextInput';
+import { useDispatch } from 'react-redux';
+import { signUp } from '../slices/auth';
+import useAuthToast from '../hooks/useAuthToast';
 
 const Login: NextPage = () => {
-  const initialValues = {
+  useAuthToast();
+  const initialValues: SignUpItem = {
     email: '',
     username: '',
     password: '',
   };
-
-  const handleSubmit = (data: any) => {};
+  const dispatch = useDispatch();
 
   return (
     <div className="max-w-3xl w-full mx-auto z-10">
@@ -37,25 +41,35 @@ const Login: NextPage = () => {
               '8文字以上で、大文字、小文字、数字、「@$!%*#?&」の特殊文字がそれぞれ１文字以上含まれるよう入力してください'
             ),
         })}
-        onSubmit={(values) => handleSubmit(values)}
+        onSubmit={(values) => {
+          dispatch(signUp(values));
+        }}
       >
-        <Form>
-          <div className="py-2">
-            <FormikTextInput labelText="Eメール" type="text" name="email" />
-            <FormikTextInput
-              labelText="ユーザー名"
-              type="text"
-              name="username"
-            />
-            <FormikTextInput
-              labelText="パスワード"
-              type="password"
-              name="password"
-            />
-          </div>
+        {({ isValid, dirty }) => (
+          <Form>
+            <div className="py-1">
+              <FormikTextInput labelText="Eメール" type="text" name="email" />
+              <FormikTextInput
+                labelText="ユーザー名"
+                type="text"
+                name="username"
+              />
+              <FormikTextInput
+                labelText="パスワード"
+                type="password"
+                name="password"
+              />
+            </div>
 
-          <Button fullWidth text="ログイン" color="blue" type="submit" />
-        </Form>
+            <Button
+              fullWidth
+              text="ログイン"
+              color="blue"
+              type="submit"
+              disabled={!isValid || !dirty}
+            />
+          </Form>
+        )}
       </Formik>
     </div>
   );
