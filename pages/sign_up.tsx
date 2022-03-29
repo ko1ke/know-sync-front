@@ -34,12 +34,11 @@ const SignUp: NextPage = () => {
           username: Yup.string()
             .required('入力必須です')
             .max(1000, '最大100文字までで入力してください'),
-          password: Yup.string()
-            .required('入力必須です')
-            .matches(
-              /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-              '8文字以上で、大文字、小文字、数字、「@$!%*#?&」の特殊文字がそれぞれ１文字以上含まれるよう入力してください'
-            ),
+          password: Yup.string().required('入力必須です'),
+          // .matches(
+          //   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+          //   '8文字以上で、大文字、小文字、数字、「@$!%*#?&」の特殊文字がそれぞれ１文字以上含まれるよう入力してください'
+          // )
         })}
         onSubmit={(values) => {
           dispatch(signUp(values));
