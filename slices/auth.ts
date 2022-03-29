@@ -26,6 +26,9 @@ export const signUp = createAsyncThunk<Auth, SignUpItem>(
     switch (res.status) {
       case 201:
         const auth = (await res.json()) as Auth;
+        // remove tokens to prevent auto login by tokens of another user
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
         return auth;
       case 422:
         throw new Error('invalid inputs');

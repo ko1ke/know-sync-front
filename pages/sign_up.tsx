@@ -7,10 +7,10 @@ import Button from '../components/common/Button';
 import FormikTextInput from '../components/common/FormikTextInput';
 import { useDispatch } from 'react-redux';
 import { signUp } from '../slices/auth';
-import useAuthToast from '../hooks/useAuthToast';
+import useAuthToastAndRedirect from '../hooks/useAuthToastAndRedirect';
 
 const SignUp: NextPage = () => {
-  useAuthToast();
+  useAuthToastAndRedirect();
   const initialValues: SignUpItem = {
     email: '',
     username: '',

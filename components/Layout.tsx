@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Disclosure } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import useAuthByToken from '../hooks/useAuthByToken';
 
 const navigation = [
   { title: '公開投稿閲覧', href: '/public_procedures' },
@@ -23,6 +24,7 @@ type Props = {
 };
 
 const Layout: React.FC<Props> = ({ children }) => {
+  useAuthByToken();
   const router = useRouter();
 
   return (

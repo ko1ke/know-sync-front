@@ -1,9 +1,11 @@
 import { useRef, useEffect } from 'react';
-import { useSelector } from './../store';
+import { useRouter } from 'next/router';
+import { useSelector } from '../store';
 import { idSelector, userNameSelector, errorSelector } from '../selectors/auth';
 import toast from 'react-hot-toast';
 
-const useAuthToast = () => {
+const useAuthToastAndRedirect = () => {
+  const router = useRouter();
   const mountRef = useRef(false);
   const id = useSelector(idSelector);
   const username = useSelector(userNameSelector);
@@ -18,12 +20,14 @@ const useAuthToast = () => {
       const accessToken = localStorage.getItem('accessToken');
       if (accessToken) {
         toast.success('ログインしました');
+        router.push('/');
       } else {
         toast.success('登録が完了しました。ログインしてください');
+        router.push('/sign_in');
       }
     }
     mountRef.current = true;
   }, [id, username, error, mountRef]);
 };
 
-export default useAuthToast;
+export default useAuthToastAndRedirect;
