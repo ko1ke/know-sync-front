@@ -7,8 +7,9 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline';
 const navigation = [
   { title: '公開投稿閲覧', href: '/public_procedures' },
   { title: '投稿作成／管理', href: '/my_procedures' },
-  { title: 'ログイン', href: '/login' },
-  { title: 'ログアウト', href: '/logout' },
+  { title: '登録', href: '/sign_up' },
+  { title: 'ログイン', href: '/sign_in' },
+  { title: 'ログアウト', href: '/sign_out' },
   { title: '利用規約', href: '/posts/term' },
   { title: 'ポリシー', href: '/posts/policy' },
 ];

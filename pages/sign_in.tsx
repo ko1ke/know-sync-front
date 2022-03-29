@@ -1,19 +1,18 @@
 import type { NextPage } from 'next';
-import type { SignUpItem } from '../types/Auth';
+import type { SignInItem } from '../types/Auth';
 import React from 'react';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
 import Button from '../components/common/Button';
 import FormikTextInput from '../components/common/FormikTextInput';
 import { useDispatch } from 'react-redux';
-import { signUp } from '../slices/auth';
+import { signIn } from '../slices/auth';
 import useAuthToast from '../hooks/useAuthToast';
 
-const Login: NextPage = () => {
+const SignIn: NextPage = () => {
   useAuthToast();
-  const initialValues: SignUpItem = {
+  const initialValues: SignInItem = {
     email: '',
-    username: '',
     password: '',
   };
   const dispatch = useDispatch();
@@ -31,9 +30,6 @@ const Login: NextPage = () => {
           email: Yup.string()
             .required('入力必須です')
             .email('Eメールの形式で入力してください'),
-          username: Yup.string()
-            .required('入力必須です')
-            .max(1000, '最大100文字までで入力してください'),
           password: Yup.string()
             .required('入力必須です')
             .matches(
@@ -42,18 +38,13 @@ const Login: NextPage = () => {
             ),
         })}
         onSubmit={(values) => {
-          dispatch(signUp(values));
+          dispatch(signIn(values));
         }}
       >
         {({ isValid, dirty }) => (
           <Form>
             <div className="py-1">
               <FormikTextInput labelText="Eメール" type="text" name="email" />
-              <FormikTextInput
-                labelText="ユーザー名"
-                type="text"
-                name="username"
-              />
               <FormikTextInput
                 labelText="パスワード"
                 type="password"
@@ -75,4 +66,4 @@ const Login: NextPage = () => {
   );
 };
 
-export default Login;
+export default SignIn;
