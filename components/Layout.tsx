@@ -11,8 +11,8 @@ const navigation = [
   { title: '登録', href: '/sign_up' },
   { title: 'ログイン', href: '/sign_in' },
   { title: 'ログアウト', href: '/sign_out' },
-  { title: '利用規約', href: '/posts/term' },
-  { title: 'ポリシー', href: '/posts/policy' },
+  { title: '利用規約', href: '/admin_posts/term' },
+  { title: 'ポリシー', href: '/admin_posts/policy' },
 ];
 
 function classNames(...classes: string[]) {
