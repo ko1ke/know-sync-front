@@ -3,6 +3,7 @@ import type { SignInItem } from '../types/Auth';
 import React from 'react';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
+import Title from '../components/common/Title';
 import Button from '../components/common/Button';
 import FormikTextInput from '../components/common/FormikTextInput';
 import { useDispatch } from 'react-redux';
@@ -20,7 +21,7 @@ const SignIn: NextPage = () => {
   return (
     <div className="max-w-3xl w-full mx-auto z-10">
       <div className="text-center">
-        <h3 className="text-xl text-gray-700 font-bold mb-2">ログイン</h3>
+        <Title text="ログイン" />
       </div>
 
       <Formik

@@ -4,6 +4,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
 import Button from '../components/common/Button';
+import Title from '../components/common/Title';
 import FormikTextInput from '../components/common/FormikTextInput';
 import { useDispatch } from 'react-redux';
 import { signUp } from '../slices/auth';
@@ -21,7 +22,7 @@ const SignUp: NextPage = () => {
   return (
     <div className="max-w-3xl w-full mx-auto z-10">
       <div className="text-center">
-        <h3 className="text-xl text-gray-700 font-bold mb-2">登録</h3>
+        <Title text="登録" />
       </div>
 
       <Formik
