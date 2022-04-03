@@ -2,8 +2,8 @@ import React from 'react';
 import { useMemo } from 'react';
 
 type Props = {
-  color: 'pink' | 'blue' | 'green';
   text: string;
+  color?: 'pink' | 'blue' | 'green' | 'gray';
   fullWidth?: boolean;
   disabled?: boolean;
   Icon?: React.ReactNode;
@@ -26,6 +26,8 @@ const Button: React.FC<Props> = ({
         return 'bg-green-500 hover:bg-green-700';
       case 'pink':
         return 'bg-pink-500 hover:bg-pink-700';
+      case 'gray':
+        return 'bg-gray-500 hover:bg-gray-700';
       default:
         return 'bg-blue-500 hover:bg-blue-700';
     }

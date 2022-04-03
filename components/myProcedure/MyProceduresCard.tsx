@@ -186,13 +186,18 @@ const ProcedureCard: React.FC<Props> = ({ id, title, content, updatedAt }) => {
                 </div>
 
                 <div className="mt-4 flex justify-evenly">
-                  <button type="button" onClick={handleDelete}>
-                    はい
-                  </button>
-
-                  <button type="button" onClick={closeModal}>
-                    いいえ
-                  </button>
+                  <Button
+                    color="gray"
+                    text="いいえ"
+                    type="button"
+                    onClick={closeModal}
+                  />
+                  <Button
+                    color="pink"
+                    text="はい"
+                    type="button"
+                    onClick={handleDelete}
+                  />
                 </div>
               </div>
             </Transition.Child>
