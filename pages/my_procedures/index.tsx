@@ -4,6 +4,7 @@ import Link from 'next/link';
 import useProcedures from '../../hooks/useProcedures';
 import MyProceduresCard from '../../components/myProcedure/MyProceduresCard';
 import FloatingButton from '../../components/common/FloatingButton';
+import LoadingBar from '../../components/common/LoadingBar';
 
 export default function Procedures() {
   const title = '投稿一覧';
@@ -19,7 +20,7 @@ export default function Procedures() {
       </Head>
       <div>
         {error && <>エラー</>}
-        {!procedures && <>データ取得中……</>}
+        {!procedures && <LoadingBar />}
         {procedures &&
           procedures.map((procedure) => (
             <MyProceduresCard
