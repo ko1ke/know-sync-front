@@ -129,7 +129,7 @@ const ProcedureCard: React.FC<Props> = ({
                   <Tippy content="twitterでシェア">
                     <TwitterShareButton
                       title={title}
-                      url={`http://localhost:4000//public_procedures/${id}`}
+                      url={`${process.env.NEXT_PUBLIC_API_DOMAIN}/public_procedures/${id}`}
                     >
                       <TwitterButton />
                     </TwitterShareButton>

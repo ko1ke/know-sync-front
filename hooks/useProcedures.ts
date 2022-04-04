@@ -10,7 +10,9 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
   // generate key of swr
   const getKey = (pageIndex: number, previousPageData: ProcedureIndex) => {
     if (previousPageData && !previousPageData.procedures.length) return null;
-    return `http://localhost:4000/procedures?page=${pageIndex + 1}`;
+    return `${process.env.NEXT_PUBLIC_API_DOMAIN}/procedures?page=${
+      pageIndex + 1
+    }`;
   };
   const {
     data: procedureList,
@@ -51,10 +53,13 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
           Authorization: `Bearer ${accessToken}`,
         };
 
-        const res = await fetch(`http://localhost:4000/procedures/${id}`, {
-          method,
-          headers,
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_DOMAIN}/procedures/${id}`,
+          {
+            method,
+            headers,
+          }
+        );
 
         if (res.status === 200 && procedureList) {
           const newList = procedureList.map((p) => {

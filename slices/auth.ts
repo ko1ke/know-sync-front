@@ -17,7 +17,7 @@ export const signUp = createAsyncThunk<Auth, SignUpItem>(
     };
     const body = JSON.stringify(signUpItem);
 
-    const res = await fetch('http://localhost:4000/sign_up', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/sign_up`, {
       method,
       headers,
       body,
@@ -47,7 +47,7 @@ export const signIn = createAsyncThunk<Auth, SignInItem>(
     };
     const body = JSON.stringify(signInItem);
 
-    const res = await fetch('http://localhost:4000/sign_in', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/sign_in`, {
       method,
       headers,
       body,
@@ -84,7 +84,7 @@ export const authUser = createAsyncThunk<Auth>(
       Authorization: `Bearer ${accessToken}`,
     };
 
-    const res = await fetch('http://localhost:4000/auth_user', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/auth_user`, {
       method,
       headers,
     });
@@ -114,7 +114,7 @@ export const refresh = createAsyncThunk<Auth>(
     };
     const body = JSON.stringify({ refreshToken: refreshToken });
 
-    const res = await fetch('http://localhost:4000/refresh', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/refresh`, {
       method,
       headers,
       body,
@@ -144,7 +144,7 @@ export const signOut = createAsyncThunk<Auth>(
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     };
-    const res = await fetch('http://localhost:4000/signout', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/signout`, {
       method,
       headers,
     });
