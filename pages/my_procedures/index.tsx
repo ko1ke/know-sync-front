@@ -1,17 +1,25 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import useProcedures from '../../hooks/useProcedures';
 import MyProceduresCard from '../../components/myProcedure/MyProceduresCard';
+import Title from '../../components/common/Title';
 import FloatingButton from '../../components/common/FloatingButton';
 import LoadingBar from '../../components/common/LoadingBar';
 
 export default function Procedures() {
-  const title = '投稿一覧';
+  const title = 'マイ投稿一覧';
   const intersectionRef = useRef<HTMLDivElement>(
     null
   ) as React.MutableRefObject<HTMLDivElement>;
   const { procedures, error, deleteProcedure } = useProcedures(intersectionRef);
+
+  useEffect(() => {
+    if (error) {
+      alert('エラーが発生しました');
+      console.log(error);
+    }
+  }, [error]);
 
   return (
     <>
@@ -19,7 +27,7 @@ export default function Procedures() {
         <title>{title}</title>
       </Head>
       <div>
-        {error && <>エラー</>}
+        <Title text={title} />
         {!procedures && <LoadingBar />}
         {procedures &&
           procedures.map((procedure) => (

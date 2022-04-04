@@ -15,13 +15,14 @@ export type ProcedureIndex = {
 export type ProcedureFormProps = {
   title: string;
   content: string;
+  publish: boolean;
   steps: Step[];
 };
 
 export type Step = {
   content: string;
   imgName: string;
-  readonly img?: File;
-  readonly dataUrl?: string;
-  readonly downloadUrl?: string;
+  img?: File;
+  dataUrl?: string;
+  downloadUrl?: string;
 };

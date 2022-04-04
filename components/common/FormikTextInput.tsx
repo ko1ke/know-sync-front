@@ -5,10 +5,16 @@ const FormikTextInput = ({
   labelText,
   name,
   type,
+  placeholder,
+  rows,
+  as,
 }: {
   labelText?: string;
   name: string;
-  type: string;
+  type: 'text' | 'number' | 'password';
+  placeholder?: string;
+  rows?: number;
+  as?: string;
 }) => {
   return (
     <div className="my-4">
@@ -25,6 +31,9 @@ const FormikTextInput = ({
         id={name}
         type={type}
         name={name}
+        placeholder={placeholder}
+        rows={rows}
+        as={as}
       />
       <ErrorMessage
         name={name}
