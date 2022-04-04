@@ -1,16 +1,22 @@
 import React, { useState, Fragment } from 'react';
 import Link from 'next/link';
 import { Dialog, Transition } from '@headlessui/react';
-import type { Procedure } from '../../types/Procedure';
+import type { ProcedureIndexItem } from '../../types/Procedure';
 import Button from '../common/Button';
 import { TwitterShareButton } from 'react-share';
 import TwitterButton from '../common/TwitterButton';
 import { noteImageBase64 } from '../../lib/base64img';
 import Tippy from '@tippyjs/react';
 
-type Props = Omit<Procedure, 'userId' | 'steps' | 'createdAt'>;
+type Props = ProcedureIndexItem & { deleteProcedure: (id: number) => void };
 
-const ProcedureCard: React.FC<Props> = ({ id, title, content, updatedAt }) => {
+const ProcedureCard: React.FC<Props> = ({
+  id,
+  title,
+  content,
+  updatedAt,
+  deleteProcedure,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => {
     setIsOpen(false);
@@ -21,7 +27,7 @@ const ProcedureCard: React.FC<Props> = ({ id, title, content, updatedAt }) => {
   };
 
   const handleDelete = () => {
-    ('not implemented');
+    deleteProcedure(id);
     closeModal();
   };
 

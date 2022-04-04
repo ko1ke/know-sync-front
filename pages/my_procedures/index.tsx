@@ -10,7 +10,7 @@ export default function Procedures() {
   const intersectionRef = useRef<HTMLDivElement>(
     null
   ) as React.MutableRefObject<HTMLDivElement>;
-  const { procedures, error } = useProcedures(intersectionRef);
+  const { procedures, error, deleteProcedure } = useProcedures(intersectionRef);
 
   return (
     <>
@@ -28,6 +28,7 @@ export default function Procedures() {
               title={procedure.title}
               content={procedure.content}
               updatedAt={procedure.updatedAt}
+              deleteProcedure={deleteProcedure}
             />
           ))}
       </div>

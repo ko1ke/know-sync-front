@@ -1,26 +1,14 @@
 import { Pagination } from './Pagination';
 
-export type Procedure = {
-  id: string;
-  userId: string;
-  title: string;
-  content: string;
-  updatedAt: Date;
-  steps: [
-    {
-      content: string;
-      imgName: string;
-    }
-  ];
+export type ProcedureIndexItem = {
+  readonly id: number;
+  readonly title: string;
+  readonly content: string;
+  readonly updatedAt: Date;
 };
 
 export type ProcedureIndex = {
-  readonly procedures: {
-    readonly id: string;
-    readonly title: string;
-    readonly content: string;
-    readonly updatedAt: Date;
-  }[];
+  readonly procedures: ProcedureIndexItem[];
   readonly pagination: Pagination;
 };
 
