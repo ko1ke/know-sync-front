@@ -86,7 +86,7 @@ const ProcedureForm: React.FC<Props> = ({
         })}
         onSubmit={(values) => handleSubmit(values)}
       >
-        {({ values, setValues }) => (
+        {({ values, setValues, isValid }) => (
           <Form>
             <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 md:divide-x-2 md:divide-dotted mb-4">
               <div>
@@ -298,7 +298,13 @@ const ProcedureForm: React.FC<Props> = ({
               </div>
             </div>
 
-            <Button fullWidth text={'保存'} color="blue" type="submit" />
+            <Button
+              fullWidth
+              text={'保存'}
+              color="blue"
+              type="submit"
+              disabled={!isValid}
+            />
           </Form>
         )}
       </Formik>

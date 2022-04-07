@@ -31,6 +31,7 @@ export default function Procedures() {
                 id={procedure.id}
                 title={procedure.title}
                 content={procedure.content}
+                publish={procedure.publish}
                 updatedAt={procedure.updatedAt}
                 deleteProcedure={deleteProcedure}
               />

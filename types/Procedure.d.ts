@@ -4,7 +4,8 @@ export type ProcedureIndexItem = {
   readonly id: number;
   readonly title: string;
   readonly content: string;
-  readonly updatedAt: Date;
+  readonly updatedAt: string;
+  readonly publish: boolean;
 };
 
 export type ProcedureIndex = {

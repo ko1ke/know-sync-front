@@ -7,6 +7,7 @@ import { TwitterShareButton } from 'react-share';
 import TwitterButton from '../common/TwitterButton';
 import { noteImageBase64 } from '../../lib/base64img';
 import Tippy from '@tippyjs/react';
+import DateFormatter from '../common/DateFormatter';
 
 type Props = ProcedureIndexItem & { deleteProcedure: (id: number) => void };
 
@@ -14,6 +15,7 @@ const ProcedureCard: React.FC<Props> = ({
   id,
   title,
   content,
+  publish,
   updatedAt,
   deleteProcedure,
 }) => {
@@ -68,9 +70,12 @@ const ProcedureCard: React.FC<Props> = ({
                       clipRule="evenodd"
                     />
                   </svg>
-                  <p>{updatedAt} 更新</p>
+                  <p>
+                    <DateFormatter dateString={updatedAt} />
+                    更新
+                  </p>
                 </div>
-                {/* <div className="flex-1 inline-flex items-center">
+                <div className="flex-1 inline-flex items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"
@@ -80,7 +85,7 @@ const ProcedureCard: React.FC<Props> = ({
                     <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
                   </svg>
                   <p className="">{publish ? '公開中' : '非公開'}</p>
-                </div> */}
+                </div>
               </div>
               <div className="flex-inline space-x-4 pt-2 text-sm text-gray-500 mb-1">
                 <Link href={`/my_procedures/${id}`}>
@@ -124,18 +129,18 @@ const ProcedureCard: React.FC<Props> = ({
                     onClick={openModal}
                   />
                 </div>
-                {/* {publish && ( */}
-                <div className="flex-1 inline-flex items-center">
-                  <Tippy content="twitterでシェア">
-                    <TwitterShareButton
-                      title={title}
-                      url={`${process.env.NEXT_PUBLIC_API_DOMAIN}/public_procedures/${id}`}
-                    >
-                      <TwitterButton />
-                    </TwitterShareButton>
-                  </Tippy>
-                </div>
-                {/* )} */}
+                {publish && (
+                  <div className="flex-1 inline-flex items-center">
+                    <Tippy content="twitterでシェア">
+                      <TwitterShareButton
+                        title={title}
+                        url={`${process.env.NEXT_PUBLIC_API_DOMAIN}/public_procedures/${id}`}
+                      >
+                        <TwitterButton />
+                      </TwitterShareButton>
+                    </Tippy>
+                  </div>
+                )}
               </div>
               <div className="flex-inline space-x-4 pt-2 text-sm text-gray-500 mb-1"></div>
             </div>
