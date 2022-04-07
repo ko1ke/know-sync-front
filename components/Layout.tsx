@@ -1,18 +1,22 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Disclosure } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import useAuthByToken from '../hooks/useAuthByToken';
+import { useSelector } from '../store';
+import { idSelector } from '../selectors/auth';
+import { useDispatch } from 'react-redux';
+import { signOut } from '../slices/auth';
+import toast from 'react-hot-toast';
 
 const navigation = [
-  { title: '公開投稿閲覧', href: '/public_procedures' },
-  { title: '投稿作成／管理', href: '/my_procedures' },
-  { title: '登録', href: '/sign_up' },
-  { title: 'ログイン', href: '/sign_in' },
-  { title: 'ログアウト', href: '/sign_out' },
-  { title: '利用規約', href: '/admin_posts/term' },
-  { title: 'ポリシー', href: '/admin_posts/policy' },
+  { title: '公開投稿閲覧', href: '/public_procedures', authRequired: false },
+  { title: '投稿作成／管理', href: '/my_procedures', authRequired: true },
+  { title: '登録', href: '/sign_up', authRequired: false },
+  { title: 'ログイン', href: '/sign_in', authRequired: false },
+  { title: '利用規約', href: '/admin_posts/term', authRequired: false },
+  { title: 'ポリシー', href: '/admin_posts/policy', authRequired: false },
 ];
 
 function classNames(...classes: string[]) {
@@ -26,6 +30,8 @@ type Props = {
 const Layout: React.FC<Props> = ({ children }) => {
   useAuthByToken();
   const router = useRouter();
+  const userId = useSelector(idSelector);
+  const dispatch = useDispatch();
 
   return (
     <div>
@@ -44,20 +50,48 @@ const Layout: React.FC<Props> = ({ children }) => {
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
-                      {navigation.map((item) => (
-                        <Link key={item.title} href={item.href}>
-                          <a
-                            className={classNames(
-                              router.pathname === item.href
-                                ? 'bg-gray-900 text-white'
-                                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                              'px-3 py-2 rounded-md text-sm font-medium'
-                            )}
-                          >
-                            {item.title}
-                          </a>
-                        </Link>
-                      ))}
+                      {navigation.map((item) => {
+                        {
+                          return item.authRequired === true ? (
+                            userId && (
+                              <Link key={item.title} href={item.href}>
+                                <a
+                                  className={classNames(
+                                    router.pathname === item.href
+                                      ? 'bg-gray-900 text-white'
+                                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    'px-3 py-2 rounded-md text-sm font-medium'
+                                  )}
+                                >
+                                  {item.title}
+                                </a>
+                              </Link>
+                            )
+                          ) : (
+                            <Link key={item.title} href={item.href}>
+                              <a
+                                className={classNames(
+                                  router.pathname === item.href
+                                    ? 'bg-gray-900 text-white'
+                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                  'px-3 py-2 rounded-md text-sm font-medium'
+                                )}
+                              >
+                                {item.title}
+                              </a>
+                            </Link>
+                          );
+                        }
+                      })}
+                      <button
+                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                        onClick={() => {
+                          dispatch(signOut());
+                          toast.success('ログアウトしました');
+                        }}
+                      >
+                        ログアウト
+                      </button>
                     </div>
                   </div>
                 </div>
