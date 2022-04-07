@@ -83,7 +83,7 @@ const ProcedureCard: React.FC<Props> = ({
                 </div> */}
               </div>
               <div className="flex-inline space-x-4 pt-2 text-sm text-gray-500 mb-1">
-                <Link href={`/procedures/${id}`}>
+                <Link href={`/my_procedures/${id}`}>
                   <a>
                     <div className="flex-1 inline-flex items-center">
                       <Button

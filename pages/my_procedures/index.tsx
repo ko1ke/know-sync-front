@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import useProcedures from '../../hooks/useProcedures';
@@ -14,13 +14,6 @@ export default function Procedures() {
   ) as React.MutableRefObject<HTMLDivElement>;
   const { procedures, error, deleteProcedure } = useProcedures(intersectionRef);
 
-  useEffect(() => {
-    if (error) {
-      alert('エラーが発生しました');
-      console.log(error);
-    }
-  }, [error]);
-
   return (
     <>
       <Head>
@@ -29,17 +22,20 @@ export default function Procedures() {
       <div>
         <Title text={title} />
         {!procedures && <LoadingBar />}
+        {error && <>エラー発生</>}
         {procedures &&
-          procedures.map((procedure) => (
-            <MyProceduresCard
-              key={procedure.id}
-              id={procedure.id}
-              title={procedure.title}
-              content={procedure.content}
-              updatedAt={procedure.updatedAt}
-              deleteProcedure={deleteProcedure}
-            />
-          ))}
+          procedures.map((procedure) => {
+            return (
+              <MyProceduresCard
+                key={procedure.id}
+                id={procedure.id}
+                title={procedure.title}
+                content={procedure.content}
+                updatedAt={procedure.updatedAt}
+                deleteProcedure={deleteProcedure}
+              />
+            );
+          })}
       </div>
 
       <div aria-label={'scroll-trigger'} ref={intersectionRef} />

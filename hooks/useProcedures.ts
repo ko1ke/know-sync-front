@@ -9,7 +9,7 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
   const intersection = useIntersection(ref);
   // generate key of swr
   const getKey = (pageIndex: number, previousPageData: ProcedureIndex) => {
-    if (previousPageData && !previousPageData.procedures.length) return null;
+    if (previousPageData && !previousPageData.procedures?.length) return null;
     return `${process.env.NEXT_PUBLIC_API_DOMAIN}/procedures?page=${
       pageIndex + 1
     }`;
@@ -23,14 +23,33 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
     setSize,
   } = useSWRInfinite(
     getKey,
-    (url): Promise<ProcedureIndex> => fetch(url).then((r) => r.json()),
+    (url): Promise<ProcedureIndex> =>
+      fetch(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      }).then((r) => r.json()),
     {
       initialSize: 1,
+      fallbackData: [
+        {
+          procedures: [],
+          pagination: {
+            itemsCount: 0,
+            currentPage: 1,
+            totalPages: 1,
+            isFirst: true,
+            isLast: true,
+          },
+        },
+      ],
     }
   );
 
   const isReachingEnd =
-    procedureList?.[procedureList.length - 1].pagination.isLast === true;
+    procedureList &&
+    procedureList[procedureList.length - 1].pagination?.isLast === true;
 
   const getProcedures = async () => {
     setSize(size + 1);
@@ -81,7 +100,9 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
   );
 
   // flat array to manipulate easy
-  const procedures = procedureList?.map((p) => p.procedures).flat();
+  const procedures = procedureList
+    ? procedureList.map((p) => p.procedures).flat()
+    : [];
 
   return { procedures, error, deleteProcedure };
 };

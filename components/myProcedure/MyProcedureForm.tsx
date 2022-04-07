@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { storage } from '../../lib/firebase';
 import { ref, uploadBytes } from 'firebase/storage';
-import { useRouter } from 'next/router';
 import { ProcedureFormProps, Step } from '../../types/Procedure';
 import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
@@ -15,10 +14,7 @@ import { FieldArray, Form, Formik } from 'formik';
 import Button from '../common/Button';
 import MarkDownView from '../common/MarkDownView';
 import styled from 'styled-components';
-
-type Query = {
-  id?: string;
-};
+import LoadingBar from '../common/LoadingBar';
 
 const StepTitle = styled.h4`
   display: flex;
@@ -34,22 +30,17 @@ const StepTitle = styled.h4`
   }
 `;
 
-const ProcedureForm: React.FC = () => {
-  const [initialValues, setInitialValues] = useState<ProcedureFormProps>({
-    title: '',
-    content: '',
-    publish: false,
-    steps: [],
-  });
-  const router = useRouter();
-  const query = router.query as Query;
+type Props = {
+  initialProcedure: ProcedureFormProps;
+  createOrUpdateProcedure: (procedure: ProcedureFormProps) => void;
+  isInitialized?: boolean;
+};
 
-  useEffect(() => {
-    if (query.id) {
-      // load existing values for update
-    }
-  }, [query.id]);
-
+const ProcedureForm: React.FC<Props> = ({
+  initialProcedure,
+  createOrUpdateProcedure,
+  isInitialized = true,
+}) => {
   const handleSubmit = (data: ProcedureFormProps) => {
     const steps = [] as Step[];
     data.steps.map((step) => {
@@ -68,18 +59,20 @@ const ProcedureForm: React.FC = () => {
         steps.push({ imgName: step.imgName, content: step.content });
       }
     });
-    if (query.id) {
-      // update
-    } else {
-      // create
-    }
+
+    createOrUpdateProcedure({
+      title: data.title,
+      content: data.content,
+      publish: data.publish,
+      steps: steps,
+    });
   };
 
-  return (
+  return isInitialized ? (
     <div className="max-w-5xl w-full mx-auto z-10">
       <Formik
         enableReinitialize={true}
-        initialValues={initialValues}
+        initialValues={initialProcedure}
         validationSchema={Yup.object({
           title: Yup.string()
             .required('タイトルは必須です')
@@ -305,16 +298,13 @@ const ProcedureForm: React.FC = () => {
               </div>
             </div>
 
-            <Button
-              fullWidth
-              text={query.id ? '更新' : '作成'}
-              color="blue"
-              type="submit"
-            />
+            <Button fullWidth text={'保存'} color="blue" type="submit" />
           </Form>
         )}
       </Formik>
     </div>
+  ) : (
+    <LoadingBar />
   );
 };
 
