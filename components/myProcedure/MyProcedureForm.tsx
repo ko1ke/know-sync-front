@@ -86,7 +86,7 @@ const ProcedureForm: React.FC<Props> = ({
         })}
         onSubmit={(values) => handleSubmit(values)}
       >
-        {({ values, setValues, isValid }) => (
+        {({ values, setValues, isValid, isSubmitting }) => (
           <Form>
             <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-6 md:divide-x-2 md:divide-dotted mb-4">
               <div>
@@ -303,7 +303,7 @@ const ProcedureForm: React.FC<Props> = ({
               text={'保存'}
               color="blue"
               type="submit"
-              disabled={!isValid}
+              disabled={!isValid || isSubmitting}
             />
           </Form>
         )}

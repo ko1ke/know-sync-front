@@ -41,7 +41,7 @@ const SignIn: NextPage = () => {
           dispatch(signIn(values));
         }}
       >
-        {({ isValid, dirty }) => (
+        {({ isValid, dirty, isSubmitting }) => (
           <Form>
             <div className="py-1">
               <FormikTextInput labelText="Eメール" type="text" name="email" />
@@ -57,7 +57,7 @@ const SignIn: NextPage = () => {
               text="ログイン"
               color="blue"
               type="submit"
-              disabled={!isValid || !dirty}
+              disabled={!isValid || !dirty || isSubmitting}
             />
           </Form>
         )}
