@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
 import PostBody from '../../components/adminPost/AdminPostBody';
 import PostFooter from '../../components/adminPost/AdminPostFooter';
-import { getAdminPostBySlug, getAllAdminPosts } from '../../lib/api/adminPost';
+import { getAdminPostBySlug, getAllAdminPosts } from '../api/adminPost';
 import Head from 'next/head';
 import markdownToHtml from '../../lib/markdownToHtml';
 import AdminPost from '../../types/AdminPost';
