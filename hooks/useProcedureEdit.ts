@@ -1,12 +1,12 @@
 import type { ProcedureFormProps } from '../types/Procedure';
-import { useCallback, useState, useEffect, useRef } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 
 const useProcedureEdit = () => {
   const router = useRouter();
   const procedureId = router.query.id;
-  const initializationRef = useRef(false);
+  const [isInitialized, setIsInitialized] = useState(false);
   const [error, setError] = useState();
 
   const [initialProcedure, setInitialProcedure] = useState<ProcedureFormProps>({
@@ -25,7 +25,8 @@ const useProcedureEdit = () => {
     }).then((res) => res.json() as Promise<ProcedureFormProps>);
 
   useEffect(() => {
-    if (procedureId) {
+    console.log(procedureId);
+    if (procedureId && isInitialized === false) {
       const accessToken = localStorage.getItem('accessToken');
       fetcher(
         `${process.env.NEXT_PUBLIC_API_DOMAIN}/procedures/${procedureId}`,
@@ -33,13 +34,13 @@ const useProcedureEdit = () => {
       )
         .then((res) => {
           setInitialProcedure(res);
-          initializationRef.current = true;
+          setIsInitialized(true);
         })
         .catch((e) => {
           setError(e);
         });
     }
-  }, [initialProcedure, procedureId]);
+  }, [setIsInitialized, setInitialProcedure, procedureId]);
 
   const updateProcedure = useCallback(
     (procedure: ProcedureFormProps) => {
@@ -75,7 +76,7 @@ const useProcedureEdit = () => {
   return {
     initialProcedure,
     error,
-    initializationRef,
+    isInitialized,
     updateProcedure,
   };
 };

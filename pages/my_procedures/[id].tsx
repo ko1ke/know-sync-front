@@ -9,7 +9,7 @@ import { idSelector } from '../../selectors/auth';
 export default function EditProcedure() {
   const title = '投稿編集';
 
-  const { initialProcedure, updateProcedure, initializationRef, error } =
+  const { initialProcedure, updateProcedure, isInitialized, error } =
     useProcedureEdit();
   const userId = useSelector(idSelector);
 
@@ -21,11 +21,12 @@ export default function EditProcedure() {
       <div>
         <Title text={title} />
         {!userId && <>ログインしてください</>}
+        {error && <>エラー発生</>}
         {userId && (
           <MyProcedureForm
             initialProcedure={initialProcedure}
             createOrUpdateProcedure={updateProcedure}
-            isInitialized={initializationRef.current}
+            isInitialized={isInitialized}
           />
         )}
       </div>
