@@ -3,7 +3,10 @@ import useSWRInfinite from 'swr/infinite';
 import useIntersection from './useIntersection';
 import type { ProcedureIndex } from '../types/Procedure';
 
-const usePublicProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
+const usePublicProcedures = (
+  ref: React.MutableRefObject<HTMLDivElement>,
+  initialData: ProcedureIndex
+) => {
   // observe the trigger is displayed
   const intersection = useIntersection(ref);
   // generate key of swr
@@ -28,18 +31,7 @@ const usePublicProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
       }).then((r) => r.json()),
     {
       initialSize: 1,
-      fallbackData: [
-        {
-          procedures: [],
-          pagination: {
-            itemsCount: 0,
-            currentPage: 1,
-            totalPages: 1,
-            isFirst: true,
-            isLast: true,
-          },
-        },
-      ],
+      fallbackData: [initialData],
     }
   );
 
