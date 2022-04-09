@@ -6,6 +6,8 @@ import MyProceduresCard from '../../components/myProcedure/MyProceduresCard';
 import Title from '../../components/common/Title';
 import FloatingButton from '../../components/common/FloatingButton';
 import LoadingBar from '../../components/common/LoadingBar';
+import { useSelector } from '../../store';
+import { idSelector } from '../../selectors/auth';
 
 export default function Procedures() {
   const title = 'マイ投稿一覧';
@@ -13,6 +15,7 @@ export default function Procedures() {
     null
   ) as React.MutableRefObject<HTMLDivElement>;
   const { procedures, error, deleteProcedure } = useProcedures(intersectionRef);
+  const userId = useSelector(idSelector);
 
   return (
     <>
@@ -23,7 +26,9 @@ export default function Procedures() {
         <Title text={title} />
         {!procedures && <LoadingBar />}
         {error && <>エラー発生</>}
-        {procedures &&
+        {!userId && <>ログインしてください</>}
+        {userId &&
+          procedures &&
           procedures.map((procedure) => {
             return (
               <MyProceduresCard
