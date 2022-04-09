@@ -1,9 +1,15 @@
 export default [
   {
-    name: '公開投稿閲覧',
+    name: '公開投稿一覧',
     path: '/public_procedures',
     authRequired: false,
     useOnNav: true,
+  },
+  {
+    name: '公開投稿閲覧',
+    path: '/public_procedures/[id]',
+    authRequired: false,
+    useOnNav: false,
   },
   {
     name: 'マイ投稿一覧',
