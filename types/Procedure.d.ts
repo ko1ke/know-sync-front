@@ -26,4 +26,5 @@ export type Step = {
   img?: File;
   dataUrl?: string;
   downloadUrl?: string;
+  signedImgUrl?: string;
 };
