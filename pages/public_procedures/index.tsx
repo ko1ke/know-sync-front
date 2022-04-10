@@ -6,7 +6,7 @@ import usePublicProcedures from '../../hooks/usePublicProcedures';
 import PublicProceduresCard from '../../components/publicProcedure/PublicProceduresCard';
 import Title from '../../components/common/Title';
 import LoadingBar from '../../components/common/LoadingBar';
-import { getPublicProcedures } from '../api/public_procedures';
+import { getPublicProcedures } from '../../lib/api/public_procedures';
 
 type Props = {
   publicProcedures: ProcedureIndex;
