@@ -30,17 +30,19 @@ export default function Procedures() {
         {userId &&
           procedures &&
           procedures.map((procedure) => {
-            return (
-              <MyProceduresCard
-                key={procedure.id}
-                id={procedure.id}
-                title={procedure.title}
-                content={procedure.content}
-                publish={procedure.publish}
-                updatedAt={procedure.updatedAt}
-                deleteProcedure={deleteProcedure}
-              />
-            );
+            if (procedure) {
+              return (
+                <MyProceduresCard
+                  key={procedure.id}
+                  id={procedure.id}
+                  title={procedure.title}
+                  content={procedure.content}
+                  publish={procedure.publish}
+                  updatedAt={procedure.updatedAt}
+                  deleteProcedure={deleteProcedure}
+                />
+              );
+            }
           })}
       </div>
 
