@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import useProcedures from '../../hooks/useProcedures';
-import MyProceduresCard from '../../components/myProcedure/MyProceduresCard';
+import MyProceduresCard from '../../components/procedure/MyProceduresCard';
 import Title from '../../components/common/Title';
 import FloatingButton from '../../components/common/FloatingButton';
 import LoadingBar from '../../components/common/LoadingBar';

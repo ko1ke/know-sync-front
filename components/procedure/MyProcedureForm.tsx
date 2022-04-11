@@ -13,7 +13,7 @@ import * as Yup from 'yup';
 import { FieldArray, Form, Formik } from 'formik';
 import Button from '../common/Button';
 import LoadingBar from '../common/LoadingBar';
-import MyProcedurePreview from './MyProcedurePreview';
+import MyProcedurePreview from './ProcedurePreview';
 
 type Props = {
   initialProcedure: ProcedureFormProps;
@@ -21,7 +21,7 @@ type Props = {
   isInitialized?: boolean;
 };
 
-const ProcedureForm: React.FC<Props> = ({
+const MyProcedureForm: React.FC<Props> = ({
   initialProcedure,
   createOrUpdateProcedure,
   isInitialized = true,
@@ -281,4 +281,4 @@ const ProcedureForm: React.FC<Props> = ({
   );
 };
 
-export default ProcedureForm;
+export default MyProcedureForm;

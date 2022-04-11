@@ -10,7 +10,7 @@ import DateFormatter from '../common/DateFormatter';
 
 type Props = ProcedureIndexItem;
 
-const ProcedureCard: React.FC<Props> = ({
+const PublicProcedureCard: React.FC<Props> = ({
   id,
   title,
   content,
@@ -101,4 +101,4 @@ const ProcedureCard: React.FC<Props> = ({
   );
 };
 
-export default ProcedureCard;
+export default PublicProcedureCard;

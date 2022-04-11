@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 import { ProcedureFormProps } from '../../types/Procedure';
-import MyProcedurePreview from '../../components/myProcedure/MyProcedurePreview';
+import MyProcedurePreview from '../../components/procedure/ProcedurePreview';
 
 type Props = {
   procedure: ProcedureFormProps & { id: number };

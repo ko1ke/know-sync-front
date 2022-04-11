@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import MyProcedureForm from '../../components/myProcedure/MyProcedureForm';
+import MyProcedureForm from '../../components/procedure/MyProcedureForm';
 import useProcedureNew from '../../hooks/useProcedureNew';
 import Title from '../../components/common/Title';
 import { useSelector } from '../../store';
