@@ -4,7 +4,7 @@ import { useSelector } from '../store';
 import { idSelector, userNameSelector, errorSelector } from '../selectors/auth';
 import toast from 'react-hot-toast';
 
-const useAuthToastAndRedirect = () => {
+const useAuthToast = () => {
   const router = useRouter();
   const mountRef = useRef(false);
   const id = useSelector(idSelector);
@@ -20,7 +20,7 @@ const useAuthToastAndRedirect = () => {
       const accessToken = localStorage.getItem('accessToken');
       if (accessToken) {
         toast.success('ログインしました');
-        router.push('/');
+        router.push('/public_procedures');
       } else {
         toast.success('登録が完了しました。ログインしてください');
         router.push('/sign_in');
@@ -30,4 +30,4 @@ const useAuthToastAndRedirect = () => {
   }, [id, username, error, mountRef]);
 };
 
-export default useAuthToastAndRedirect;
+export default useAuthToast;
