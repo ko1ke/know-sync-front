@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import useIntersection from './useIntersection';
 import type { ProcedureIndex } from '../types/Procedure';
@@ -9,18 +9,21 @@ const usePublicProcedures = (
 ) => {
   // observe the trigger is displayed
   const intersection = useIntersection(ref);
+  // keyword for search
+  const [keyword, setKeyword] = useState('');
   // generate key of swr
   const getKey = (pageIndex: number, previousPageData: ProcedureIndex) => {
     if (previousPageData && !previousPageData.procedures?.length) return null;
-    return `${process.env.NEXT_PUBLIC_API_DOMAIN}/public_procedures?page=${
-      pageIndex + 1
-    }`;
+    return `${
+      process.env.NEXT_PUBLIC_API_DOMAIN
+    }/public_procedures?keyword=${keyword}&page=${pageIndex + 1}`;
   };
   const {
     data: procedureList,
     error,
     size,
     setSize,
+    mutate,
   } = useSWRInfinite(
     getKey,
     (url): Promise<ProcedureIndex> =>
@@ -43,6 +46,23 @@ const usePublicProcedures = (
     setSize(size + 1);
   };
 
+  // reset data when keyword changed
+  useEffect(() => {
+    mutate([
+      {
+        procedures: [],
+        pagination: {
+          itemsCount: 0,
+          currentPage: 1,
+          totalPages: 1,
+          isFirst: true,
+          isLast: true,
+        },
+      },
+    ]);
+    setSize(1);
+  }, [keyword]);
+
   useEffect(() => {
     // if react the trigger by scroll, get next data
     if (intersection && !isReachingEnd) {
@@ -55,7 +75,7 @@ const usePublicProcedures = (
     ? procedureList.map((p) => p.procedures).flat()
     : [];
 
-  return { procedures, error };
+  return { procedures, error, setKeyword };
 };
 
 export default usePublicProcedures;

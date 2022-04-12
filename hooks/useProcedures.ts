@@ -1,18 +1,33 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import useIntersection from './useIntersection';
 import type { ProcedureIndex } from '../types/Procedure';
 import toast from 'react-hot-toast';
 
+const initialData = [
+  {
+    procedures: [],
+    pagination: {
+      itemsCount: 0,
+      currentPage: 1,
+      totalPages: 1,
+      isFirst: true,
+      isLast: true,
+    },
+  },
+];
+
 const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
   // observe the trigger is displayed
   const intersection = useIntersection(ref);
+  // keyword for search
+  const [keyword, setKeyword] = useState('');
   // generate key of swr
   const getKey = (pageIndex: number, previousPageData: ProcedureIndex) => {
     if (previousPageData && !previousPageData.procedures?.length) return null;
-    return `${process.env.NEXT_PUBLIC_API_DOMAIN}/procedures?page=${
-      pageIndex + 1
-    }`;
+    return `${
+      process.env.NEXT_PUBLIC_API_DOMAIN
+    }/procedures?keyword=${keyword}&page=${pageIndex + 1}`;
   };
   const {
     data: procedureList,
@@ -32,18 +47,7 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
       }).then((r) => r.json()),
     {
       initialSize: 1,
-      fallbackData: [
-        {
-          procedures: [],
-          pagination: {
-            itemsCount: 0,
-            currentPage: 1,
-            totalPages: 1,
-            isFirst: true,
-            isLast: true,
-          },
-        },
-      ],
+      fallbackData: initialData,
     }
   );
 
@@ -61,6 +65,12 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
       getProcedures();
     }
   }, [intersection, isReachingEnd]);
+
+  // reset data when keyword changed
+  useEffect(() => {
+    mutate(initialData);
+    setSize(1);
+  }, [keyword]);
 
   const deleteProcedure = useCallback(
     (id: number) => {
@@ -104,7 +114,7 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
     ? procedureList.map((p) => p.procedures).flat()
     : [];
 
-  return { procedures, error, deleteProcedure };
+  return { procedures, error, deleteProcedure, setKeyword };
 };
 
 export default useProcedures;

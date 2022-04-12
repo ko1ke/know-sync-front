@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import useProcedures from '../../hooks/useProcedures';
 import MyProceduresCard from '../../components/procedure/MyProceduresCard';
+import SearchInput from '../../components/common/SearchInput';
 import Title from '../../components/common/Title';
 import FloatingButton from '../../components/common/FloatingButton';
 import LoadingBar from '../../components/common/LoadingBar';
@@ -14,7 +15,8 @@ export default function Procedures() {
   const intersectionRef = useRef<HTMLDivElement>(
     null
   ) as React.MutableRefObject<HTMLDivElement>;
-  const { procedures, error, deleteProcedure } = useProcedures(intersectionRef);
+  const { procedures, error, deleteProcedure, setKeyword } =
+    useProcedures(intersectionRef);
   const userId = useSelector(idSelector);
 
   return (
@@ -24,6 +26,7 @@ export default function Procedures() {
       </Head>
       <div>
         <Title text={title} />
+        <SearchInput placeholder="タイトルで検索" setKeyword={setKeyword} />
         {!procedures && <LoadingBar />}
         {error && <>エラー発生</>}
         {!userId && <>ログインしてください</>}

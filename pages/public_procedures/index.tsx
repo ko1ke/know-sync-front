@@ -7,6 +7,7 @@ import PublicProceduresCard from '../../components/procedure/PublicProceduresCar
 import Title from '../../components/common/Title';
 import LoadingBar from '../../components/common/LoadingBar';
 import { getPublicProcedures } from '../../lib/api/public_procedures';
+import SearchInput from '../../components/common/SearchInput';
 
 type Props = {
   publicProcedures: ProcedureIndex;
@@ -17,7 +18,7 @@ const PublicProcedures: NextPage<Props> = ({ publicProcedures }) => {
   const intersectionRef = useRef<HTMLDivElement>(
     null
   ) as React.MutableRefObject<HTMLDivElement>;
-  const { procedures, error } = usePublicProcedures(
+  const { procedures, error, setKeyword } = usePublicProcedures(
     intersectionRef,
     publicProcedures
   );
@@ -29,6 +30,7 @@ const PublicProcedures: NextPage<Props> = ({ publicProcedures }) => {
       </Head>
       <div>
         <Title text={title} />
+        <SearchInput placeholder="タイトルで検索" setKeyword={setKeyword} />
         {!procedures && <LoadingBar />}
         {error && <>エラー発生</>}
         {procedures &&
