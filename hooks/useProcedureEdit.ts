@@ -8,6 +8,12 @@ const useProcedureEdit = () => {
   const procedureId = router.query.id;
   const [isInitialized, setIsInitialized] = useState(false);
   const [error, setError] = useState();
+  // access token as state
+  const [accessToken, setAccessToken] = useState<null | string>(null);
+
+  useEffect(() => {
+    setAccessToken(localStorage.getItem('accessToken'));
+  }, []);
 
   const [initialProcedure, setInitialProcedure] = useState<ProcedureFormProps>({
     title: '',
@@ -25,9 +31,7 @@ const useProcedureEdit = () => {
     }).then((res) => res.json() as Promise<ProcedureFormProps>);
 
   useEffect(() => {
-    console.log(procedureId);
-    if (procedureId && isInitialized === false) {
-      const accessToken = localStorage.getItem('accessToken');
+    if (procedureId && isInitialized === false && accessToken) {
       fetcher(
         `${process.env.NEXT_PUBLIC_API_DOMAIN}/procedures/${procedureId}`,
         accessToken
@@ -40,7 +44,7 @@ const useProcedureEdit = () => {
           setError(e);
         });
     }
-  }, [setIsInitialized, setInitialProcedure, procedureId]);
+  }, [setIsInitialized, setInitialProcedure, procedureId, accessToken]);
 
   const updateProcedure = useCallback(
     (procedure: ProcedureFormProps) => {

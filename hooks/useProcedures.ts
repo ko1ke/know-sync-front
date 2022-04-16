@@ -22,9 +22,17 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
   const intersection = useIntersection(ref);
   // keyword for search
   const [keyword, setKeyword] = useState('');
+  // access token as state
+  const [accessToken, setAccessToken] = useState<null | string>(null);
+
+  useEffect(() => {
+    setAccessToken(localStorage.getItem('accessToken'));
+  }, []);
+
   // generate key of swr
   const getKey = (pageIndex: number, previousPageData: ProcedureIndex) => {
     if (previousPageData && !previousPageData.procedures?.length) return null;
+    if (!accessToken) return null;
     return `${
       process.env.NEXT_PUBLIC_API_DOMAIN
     }/procedures?keyword=${keyword}&page=${pageIndex + 1}`;
@@ -42,7 +50,7 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
       fetch(url, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       }).then((r) => r.json()),
     {
@@ -76,7 +84,6 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
     (id: number) => {
       (async () => {
         const method = 'DELETE';
-        const accessToken = localStorage.getItem('accessToken');
         const headers = {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
@@ -106,7 +113,7 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
         }
       })();
     },
-    [procedureList]
+    [procedureList, accessToken]
   );
 
   // flat array to manipulate easy
