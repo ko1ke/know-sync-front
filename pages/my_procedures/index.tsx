@@ -42,6 +42,7 @@ export default function Procedures() {
                   content={procedure.content}
                   publish={procedure.publish}
                   updatedAt={procedure.updatedAt}
+                  eyeCatchImgName={procedure.eyeCatchImgName}
                   deleteProcedure={deleteProcedure}
                 />
               );

@@ -45,10 +45,12 @@ const MyProcedureForm: React.FC<Props> = ({
       }
     });
 
+    const eyeCatchImgName = data.steps.find((s) => s.imgName)?.imgName || '';
     createOrUpdateProcedure({
       title: data.title,
       content: data.content,
       publish: data.publish,
+      eyeCatchImgName: eyeCatchImgName,
       steps: steps,
     });
   };

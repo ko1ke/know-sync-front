@@ -7,6 +7,7 @@ export type ProcedureIndexItem = {
   readonly updatedAt: string;
   readonly publish: boolean;
   readonly username: string;
+  readonly eyeCatchImgName: string;
 };
 
 export type ProcedureIndex = {
@@ -19,6 +20,7 @@ export type ProcedureFormProps = {
   content: string;
   publish: boolean;
   steps: Step[];
+  eyeCatchImgName: string;
 };
 
 export type Step = {

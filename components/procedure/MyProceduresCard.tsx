@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import Link from 'next/link';
 import { Dialog, Transition } from '@headlessui/react';
 import type { ProcedureIndexItem } from '../../types/Procedure';
@@ -8,8 +8,12 @@ import TwitterButton from '../common/TwitterButton';
 import { noteImageBase64 } from '../../lib/base64img';
 import Tippy from '@tippyjs/react';
 import DateFormatter from '../common/DateFormatter';
+import { storage } from '../../lib/firebase';
+import { ref, getDownloadURL } from 'firebase/storage';
 
-type Props = ProcedureIndexItem & { deleteProcedure: (id: number) => void };
+type Props = Omit<ProcedureIndexItem, 'username'> & {
+  deleteProcedure: (id: number) => void;
+};
 
 const ProcedureCard: React.FC<Props> = ({
   id,
@@ -17,8 +21,20 @@ const ProcedureCard: React.FC<Props> = ({
   content,
   publish,
   updatedAt,
+  eyeCatchImgName,
   deleteProcedure,
 }) => {
+  const [downloadUrl, setDownloadUrl] = useState('');
+
+  useEffect(() => {
+    if (eyeCatchImgName) {
+      const storageRef = ref(storage, `/stepImages/${eyeCatchImgName}`);
+      getDownloadURL(storageRef).then((url) => {
+        setDownloadUrl(url);
+      });
+    }
+  }, [eyeCatchImgName, setDownloadUrl]);
+
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => {
     setIsOpen(false);
@@ -39,11 +55,19 @@ const ProcedureCard: React.FC<Props> = ({
         <div className="bg-white border border-white shadow-lg  rounded-3xl p-4 m-4">
           <div className="flex-none sm:flex">
             <div className=" relative h-32 w-32  sm:mb-0 mb-3">
-              <img
-                src={noteImageBase64}
-                alt=""
-                className=" w-32 h-32 object-cover "
-              />
+              {downloadUrl ? (
+                <img
+                  src={downloadUrl}
+                  alt="eye-catch-img"
+                  className=" w-32 h-32 object-cover "
+                />
+              ) : (
+                <img
+                  src={noteImageBase64}
+                  alt="alt-eye-catch-img"
+                  className=" w-32 h-32 object-cover "
+                />
+              )}
             </div>
             <div className="flex-auto sm:ml-5 justify-evenly">
               <div className="flex items-center justify-between sm:mt-2">

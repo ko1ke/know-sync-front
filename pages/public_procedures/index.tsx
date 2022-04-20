@@ -44,6 +44,7 @@ const PublicProcedures: NextPage<Props> = ({ publicProcedures }) => {
                 publish={procedure.publish}
                 username={procedure.username}
                 updatedAt={procedure.updatedAt}
+                eyeCatchImgName={procedure.eyeCatchImgName}
               />
             );
           })}

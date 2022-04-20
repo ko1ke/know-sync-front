@@ -2,7 +2,7 @@ import React from 'react';
 import { ProcedureFormProps } from '../../types/Procedure';
 import MarkDownView from '../common/MarkDownView';
 
-type Props = Omit<ProcedureFormProps, 'publish'>;
+type Props = Omit<ProcedureFormProps, 'publish' | 'eyeCatchImgName'>;
 
 const ProcedurePreview: React.FC<Props> = ({ title, content, steps }) => {
   return (

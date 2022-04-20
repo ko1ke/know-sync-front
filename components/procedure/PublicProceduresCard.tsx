@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import type { ProcedureIndexItem } from '../../types/Procedure';
 import Button from '../common/Button';
@@ -7,6 +7,8 @@ import TwitterButton from '../common/TwitterButton';
 import { noteImageBase64 } from '../../lib/base64img';
 import Tippy from '@tippyjs/react';
 import DateFormatter from '../common/DateFormatter';
+import { storage } from '../../lib/firebase';
+import { ref, getDownloadURL } from 'firebase/storage';
 
 type Props = ProcedureIndexItem;
 
@@ -17,18 +19,38 @@ const PublicProcedureCard: React.FC<Props> = ({
   publish,
   updatedAt,
   username,
+  eyeCatchImgName,
 }) => {
+  const [downloadUrl, setDownloadUrl] = useState('');
+
+  useEffect(() => {
+    if (eyeCatchImgName) {
+      const storageRef = ref(storage, `/stepImages/${eyeCatchImgName}`);
+      getDownloadURL(storageRef).then((url) => {
+        setDownloadUrl(url);
+      });
+    }
+  }, [eyeCatchImgName, setDownloadUrl]);
+
   return (
     <div className="max-w-5xl w-full mx-auto z-10">
       <div className="flex flex-col">
         <div className="bg-white border border-white shadow-lg  rounded-3xl p-4 m-4">
           <div className="flex-none sm:flex">
             <div className=" relative h-32 w-32  sm:mb-0 mb-3">
-              <img
-                src={noteImageBase64}
-                alt=""
-                className=" w-32 h-32 object-cover "
-              />
+              {downloadUrl ? (
+                <img
+                  src={downloadUrl}
+                  alt="eye-catch-img"
+                  className=" w-32 h-32 object-cover "
+                />
+              ) : (
+                <img
+                  src={noteImageBase64}
+                  alt="alt-eye-catch-img"
+                  className=" w-32 h-32 object-cover "
+                />
+              )}
             </div>
             <div className="flex-auto sm:ml-5 justify-evenly">
               <div className="flex items-center justify-between sm:mt-2">
