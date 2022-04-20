@@ -8,8 +8,8 @@ import TwitterButton from '../common/TwitterButton';
 import { noteImageBase64 } from '../../lib/base64img';
 import Tippy from '@tippyjs/react';
 import DateFormatter from '../common/DateFormatter';
-import { storage } from '../../lib/firebase';
-import { ref, getDownloadURL } from 'firebase/storage';
+import useFsDownloadUrl from '../../hooks/useFSDownloadUrl';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 type Props = Omit<ProcedureIndexItem, 'username'> & {
   deleteProcedure: (id: number) => void;
@@ -24,16 +24,7 @@ const ProcedureCard: React.FC<Props> = ({
   eyeCatchImgName,
   deleteProcedure,
 }) => {
-  const [downloadUrl, setDownloadUrl] = useState('');
-
-  useEffect(() => {
-    if (eyeCatchImgName) {
-      const storageRef = ref(storage, `/stepImages/${eyeCatchImgName}`);
-      getDownloadURL(storageRef).then((url) => {
-        setDownloadUrl(url);
-      });
-    }
-  }, [eyeCatchImgName, setDownloadUrl]);
+  const { downloadUrl, gettingDownloadUrl } = useFsDownloadUrl(eyeCatchImgName);
 
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => {
@@ -55,17 +46,21 @@ const ProcedureCard: React.FC<Props> = ({
         <div className="bg-white border border-white shadow-lg  rounded-3xl p-4 m-4">
           <div className="flex-none sm:flex">
             <div className=" relative h-32 w-32  sm:mb-0 mb-3">
-              {downloadUrl ? (
+              {gettingDownloadUrl ? (
+                <div className="w-32 h-32 flex justify-center items-center">
+                  <LoadingSpinner />
+                </div>
+              ) : downloadUrl ? (
                 <img
                   src={downloadUrl}
                   alt="eye-catch-img"
-                  className=" w-32 h-32 object-cover "
+                  className=" w-32 h-32 object-cover"
                 />
               ) : (
                 <img
                   src={noteImageBase64}
                   alt="alt-eye-catch-img"
-                  className=" w-32 h-32 object-cover "
+                  className=" w-32 h-32 object-cover"
                 />
               )}
             </div>
