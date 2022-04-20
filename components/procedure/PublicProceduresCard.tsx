@@ -16,6 +16,7 @@ const PublicProcedureCard: React.FC<Props> = ({
   content,
   publish,
   updatedAt,
+  username,
 }) => {
   return (
     <div className="max-w-5xl w-full mx-auto z-10">
@@ -50,6 +51,22 @@ const PublicProcedureCard: React.FC<Props> = ({
                   >
                     <path
                       fillRule="evenodd"
+                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <p>{username}</p>
+                </div>
+
+                <div className="flex-1 inline-flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
                       d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
                       clipRule="evenodd"
                     />
@@ -68,7 +85,7 @@ const PublicProcedureCard: React.FC<Props> = ({
                   >
                     <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
                   </svg>
-                  <p className="">{publish ? '公開中' : '非公開'}</p>
+                  <p>{publish ? '公開中' : '非公開'}</p>
                 </div>
               </div>
               <div className="flex-inline space-x-4 pt-2 text-sm text-gray-500 mb-1">

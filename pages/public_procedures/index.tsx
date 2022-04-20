@@ -42,6 +42,7 @@ const PublicProcedures: NextPage<Props> = ({ publicProcedures }) => {
                 title={procedure.title}
                 content={procedure.content}
                 publish={procedure.publish}
+                username={procedure.username}
                 updatedAt={procedure.updatedAt}
               />
             );

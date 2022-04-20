@@ -6,6 +6,7 @@ export type ProcedureIndexItem = {
   readonly content: string;
   readonly updatedAt: string;
   readonly publish: boolean;
+  readonly username: string;
 };
 
 export type ProcedureIndex = {
