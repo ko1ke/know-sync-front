@@ -15,7 +15,7 @@ export default function Procedures() {
   const intersectionRef = useRef<HTMLDivElement>(
     null
   ) as React.MutableRefObject<HTMLDivElement>;
-  const { procedures, error, deleteProcedure, setKeyword } =
+  const { procedures, error, deleteProcedure, setKeyword, isValidating } =
     useProcedures(intersectionRef);
   const userId = useSelector(idSelector);
 
@@ -28,8 +28,8 @@ export default function Procedures() {
         <Title text={title} />
         <SearchInput placeholder="タイトルで検索" setKeyword={setKeyword} />
         {!procedures && <LoadingBar />}
-        {error && <>エラー発生</>}
-        {!userId && <>ログインしてください</>}
+        {!isValidating && error && <>エラー発生</>}
+        {!isValidating && !userId && <>ログインしてください</>}
         {userId &&
           procedures &&
           procedures.map((procedure) => {
