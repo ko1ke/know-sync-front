@@ -23,13 +23,23 @@ const MyProcedureStepImageInput: React.FC<Props> = ({
   useEffect(() => {
     if (step.imgName) {
       const storageRef = ref(storage, `/stepImages/${step.imgName}`);
-      getDownloadURL(storageRef).then((url) => {
-        setValues((prevValues) => {
-          const { steps } = prevValues;
-          steps[index]['downloadUrl'] = url;
-          return { ...prevValues, steps: steps };
+      getDownloadURL(storageRef)
+        .then((url) => {
+          setValues((prevValues) => {
+            const { steps } = prevValues;
+            steps[index]['downloadUrl'] = url;
+            return { ...prevValues, steps: steps };
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          setValues((prevValues) => {
+            const { steps } = prevValues;
+            steps[index]['downloadUrl'] = '';
+            steps[index]['dataUrl'] = '';
+            return { ...prevValues, steps: steps };
+          });
         });
-      });
     } else {
       setValues((prevValues) => {
         const { steps } = prevValues;

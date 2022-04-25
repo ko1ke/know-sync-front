@@ -10,10 +10,17 @@ const useFsDownloadUrl = (fileName: string) => {
     if (fileName) {
       setGettingDownloadUrl(true);
       const storageRef = ref(storage, `/stepImages/${fileName}`);
-      getDownloadURL(storageRef).then((url) => {
-        setDownloadUrl(url);
-        setGettingDownloadUrl(false);
-      });
+      getDownloadURL(storageRef)
+        .then((url) => {
+          setDownloadUrl(url);
+        })
+        .catch((error) => {
+          console.log(error);
+          setDownloadUrl('');
+        })
+        .finally(() => {
+          setGettingDownloadUrl(false);
+        });
     }
   }, [fileName, setDownloadUrl]);
 
