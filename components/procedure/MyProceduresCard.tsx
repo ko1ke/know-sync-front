@@ -8,7 +8,7 @@ import TwitterButton from '../common/TwitterButton';
 import { noteImageBase64 } from '../../lib/base64img';
 import Tippy from '@tippyjs/react';
 import DateFormatter from '../common/DateFormatter';
-import useFsDownloadUrl from '../../hooks/useFSDownloadUrl';
+import useFsDownloadUrl from '../../hooks/useFsDownloadUrl';
 import LoadingSpinner from '../common/LoadingSpinner';
 
 type Props = Omit<ProcedureIndexItem, 'username'> & {

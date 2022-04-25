@@ -20,7 +20,7 @@ export type ProcedureFormProps = {
   content: string;
   publish: boolean;
   steps: Step[];
-  eyeCatchImgName: string;
+  eyeCatchImgName?: string;
 };
 
 export type Step = {
