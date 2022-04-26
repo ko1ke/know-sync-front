@@ -1,6 +1,6 @@
 import React from 'react';
 import { storage } from '../../lib/firebase';
-import { ref, uploadBytes } from 'firebase/storage';
+import { ref, uploadBytes, uploadBytesResumable } from 'firebase/storage';
 import { ProcedureFormProps, Step } from '../../types/Procedure';
 import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
@@ -21,37 +21,76 @@ type Props = {
   isInitialized?: boolean;
 };
 
+const uploadImg = async (uploadName: string, img: File | undefined) => {
+  return new Promise<void>((resolve, reject) => {
+    if (!img) {
+      resolve();
+    } else {
+      const storageRef = ref(storage, `/stepImages/${uploadName}`);
+      const uploadTask = uploadBytesResumable(storageRef, img);
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+          switch (snapshot.state) {
+            case 'paused':
+              console.log('Upload is paused');
+              break;
+            case 'running':
+              console.log('Upload is running');
+              break;
+          }
+        },
+        (error) => {
+          // Handle unsuccessful uploads
+          console.log(error);
+          reject(error);
+        },
+        async () => {
+          resolve();
+        }
+      );
+    }
+  });
+};
+
 const MyProcedureForm: React.FC<Props> = ({
   initialProcedure,
   createOrUpdateProcedure,
   isInitialized = true,
 }) => {
-  const handleSubmit = (data: ProcedureFormProps) => {
-    const steps = [] as Step[];
-    data.steps.map((step) => {
+  const handleSubmit = async (data: ProcedureFormProps) => {
+    data.steps = data.steps.map((step) => {
       const { img } = step;
-      if (!img) {
-        steps.push({ imgName: step.imgName, content: step.content });
-        return;
-      }
-      try {
-        // upload image file
+      if (img) {
         const uploadName = uuidv4() + extname(img.name);
-        uploadBytes(ref(storage, `/stepImages/${uploadName}`), img);
-        steps.push({ imgName: uploadName, content: step.content });
-      } catch (error) {
-        alert('画像がアップロードできませんでした');
-        steps.push({ imgName: step.imgName, content: step.content });
+        return { ...step, imgName: uploadName };
+      } else {
+        return step;
       }
     });
 
-    const eyeCatchImgName = data.steps.find((s) => s.imgName)?.imgName || '';
-    createOrUpdateProcedure({
-      title: data.title,
-      content: data.content,
-      publish: data.publish,
-      eyeCatchImgName: eyeCatchImgName,
-      steps: steps,
+    await Promise.all(
+      data.steps.map(async (step) => {
+        return await uploadImg(step.imgName, step.img);
+      })
+    ).then(() => {
+      const eyeCatchImgName = data.steps.find((s) => s.imgName)?.imgName || '';
+      const steps = data.steps.map((step) => {
+        const { content, imgName } = step;
+        return { content, imgName };
+      });
+      createOrUpdateProcedure({
+        title: data.title,
+        content: data.content,
+        publish: data.publish,
+        eyeCatchImgName: eyeCatchImgName,
+        steps: steps,
+      });
     });
   };
 
