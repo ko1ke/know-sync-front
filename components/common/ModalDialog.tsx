@@ -1,18 +1,37 @@
-import React, { useState, Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 
 type Props = {
   isOpen: boolean;
   title: string;
+  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '3xl';
   closeModal: () => void;
 };
 
 const ModalDialog: React.FC<Props> = ({
   title,
   isOpen,
+  maxWidth = 'xs',
   closeModal,
   children,
 }) => {
+  const maxWidthClassName = useMemo(() => {
+    switch (maxWidth) {
+      case 'sm':
+        return 'max-w-sm';
+      case 'md':
+        return 'max-w-md';
+      case 'lg':
+        return 'max-w-lg';
+      case 'xl':
+        return 'max-w-xl';
+      case '3xl':
+        return 'max-w-3xl';
+      default:
+        return 'max-w-xs';
+    }
+  }, [maxWidth]);
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
@@ -49,7 +68,9 @@ const ModalDialog: React.FC<Props> = ({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+            <div
+              className={`${maxWidthClassName} inline-block w-full p-6 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl`}
+            >
               <Dialog.Title
                 as="h3"
                 className="text-lg font-medium leading-6 text-gray-900"
