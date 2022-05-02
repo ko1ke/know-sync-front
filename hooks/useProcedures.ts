@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { refresh } from '../slices/auth';
 import useSWRInfinite from 'swr/infinite';
@@ -147,10 +147,10 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
   );
 
   // flat array to manipulate easy
-  const procedures = procedureList
-    ? procedureList.map((p) => p.procedures).flat()
-    : [];
-
+  const procedures = useMemo(
+    () => (procedureList ? procedureList.map((p) => p.procedures).flat() : []),
+    [procedureList]
+  );
   return { procedures, error, isValidating, deleteProcedure, setKeyword };
 };
 

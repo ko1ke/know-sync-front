@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import useIntersection from './useIntersection';
 import type { ProcedureIndex } from '../types/Procedure';
@@ -71,9 +71,10 @@ const usePublicProcedures = (
   }, [intersection, isReachingEnd]);
 
   // flat array to manipulate easy
-  const procedures = procedureList
-    ? procedureList.map((p) => p.procedures).flat()
-    : [];
+  const procedures = useMemo(
+    () => (procedureList ? procedureList.map((p) => p.procedures).flat() : []),
+    [procedureList]
+  );
 
   return { procedures, error, setKeyword };
 };
