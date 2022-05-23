@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { AuthState, Auth, SignUpItem, SignInItem } from '../types/Auth';
+import type { BackEndError } from '../types/BackendError';
 
 const initialState: AuthState = {
   id: undefined,
@@ -31,9 +32,10 @@ export const signUp = createAsyncThunk<Auth, SignUpItem>(
         localStorage.removeItem('refreshToken');
         return auth;
       case 422:
-        throw new Error('invalid inputs');
+        const err: BackEndError = await res.json();
+        throw new Error(err.message);
       default:
-        throw new Error('unexpected error');
+        throw new Error('予期しないエラーです');
     }
   }
 );
@@ -60,11 +62,12 @@ export const signIn = createAsyncThunk<Auth, SignInItem>(
         localStorage.setItem('refreshToken', auth.refreshToken as string);
         return auth;
       case 401:
-        throw new Error('cannot authorized');
+        const err: BackEndError = await res.json();
+        throw new Error(err.message);
       case 422:
-        throw new Error('invalid inputs');
+        throw new Error('入力が不正です');
       default:
-        throw new Error('unexpected error');
+        throw new Error('予期しないエラーです');
     }
   }
 );
@@ -94,7 +97,7 @@ export const authUser = createAsyncThunk<Auth>(
         const auth = (await res.json()) as Auth;
         return auth;
       default:
-        throw new Error('auth user error');
+        throw new Error('認証できませんでした');
     }
   }
 );
@@ -130,7 +133,7 @@ export const refresh = createAsyncThunk<Auth>(
       default:
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        throw new Error('auth user error');
+        throw new Error('認証できませんでした');
     }
   }
 );
@@ -156,7 +159,7 @@ export const signOut = createAsyncThunk<Auth>(
         localStorage.removeItem('refreshToken');
         return auth;
       default:
-        throw new Error('unexpected error');
+        throw new Error('予期しないエラーです');
     }
   }
 );
