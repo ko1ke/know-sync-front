@@ -37,8 +37,9 @@ const SignIn: NextPage = () => {
           //   '8文字以上で、大文字、小文字、数字、「@$!%*#?&」の特殊文字がそれぞれ１文字以上含まれるよう入力してください'
           // )
         })}
-        onSubmit={(values) => {
+        onSubmit={(values, submitProps) => {
           dispatch(signIn(values));
+          submitProps.setSubmitting(false)
         }}
       >
         {({ isValid, dirty, isSubmitting }) => (

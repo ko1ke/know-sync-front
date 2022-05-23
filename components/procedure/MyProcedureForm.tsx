@@ -110,7 +110,10 @@ const MyProcedureForm: React.FC<Props> = ({
             })
           ),
         })}
-        onSubmit={(values) => handleSubmit(values)}
+        onSubmit={(values, submitProps) => {
+          handleSubmit(values);
+          submitProps.setSubmitting(false);
+        }}
       >
         {({ values, setValues, isValid, isSubmitting }) => (
           <Form>
