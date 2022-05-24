@@ -9,6 +9,8 @@ import { useDispatch } from 'react-redux';
 import { signOut } from '../slices/auth';
 import toast from 'react-hot-toast';
 import useNavigation from '../hooks/useNavigation';
+import { useSelector } from '../store';
+import { idSelector } from '../selectors/auth';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -20,6 +22,7 @@ type Props = {
 
 const Layout: React.FC<Props> = ({ children }) => {
   useAuthByToken();
+  const userId = useSelector(idSelector);
   const router = useRouter();
   const dispatch = useDispatch();
   const { navigation } = useNavigation();
@@ -70,15 +73,17 @@ const Layout: React.FC<Props> = ({ children }) => {
                               </a>
                             </Link>
                           ))}
-                          <button
-                            className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                            onClick={() => {
-                              dispatch(signOut());
-                              toast.success('ログアウトしました');
-                            }}
-                          >
-                            ログアウト
-                          </button>
+                          {userId && (
+                            <button
+                              className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                              onClick={() => {
+                                dispatch(signOut());
+                                toast.success('ログアウトしました');
+                              }}
+                            >
+                              ログアウト
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -115,15 +120,17 @@ const Layout: React.FC<Props> = ({ children }) => {
                         {item.name}
                       </a>
                     ))}
-                    <span
-                      className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium cursor-pointer"
-                      onClick={() => {
-                        dispatch(signOut());
-                        toast.success('ログアウトしました');
-                      }}
-                    >
-                      ログアウト
-                    </span>
+                    {userId && (
+                      <span
+                        className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium cursor-pointer"
+                        onClick={() => {
+                          dispatch(signOut());
+                          toast.success('ログアウトしました');
+                        }}
+                      >
+                        ログアウト
+                      </span>
+                    )}
                   </div>
                 </Disclosure.Panel>
               </>

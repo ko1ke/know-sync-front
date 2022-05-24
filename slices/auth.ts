@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { AuthState, Auth, SignUpItem, SignInItem } from '../types/Auth';
-import type { BackEndError } from '../types/BackendError';
+import type { BackEndError } from '../types/BackEndError';
 
 const initialState: AuthState = {
   id: undefined,
