@@ -5,7 +5,6 @@ type Props = {
   text: string;
   color?: 'pink' | 'blue' | 'green' | 'gray';
   fullWidth?: boolean;
-  disabled?: boolean;
   Icon?: React.ReactNode;
 } & React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -16,7 +15,6 @@ const Button: React.FC<Props> = ({
   color,
   text,
   fullWidth = false,
-  disabled = false,
   Icon,
   ...rest
 }) => {
@@ -37,10 +35,9 @@ const Button: React.FC<Props> = ({
     <div className="my-4">
       <button
         type="button"
-        className={`${fullWidth ? 'w-full max-w-5xl' : ''} ${
-          disabled ? 'opacity-50 cursor-not-allowed' : ''
-        } ${buttonColorNames} text-white font-medium py-2 px-4 rounded inline-flex items-center justify-center `}
-        disabled={disabled}
+        className={`${
+          fullWidth ? 'w-full max-w-5xl' : ''
+        } ${buttonColorNames} text-white font-medium py-2 px-4 rounded inline-flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed`}
         {...rest}
       >
         {Icon}
