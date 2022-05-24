@@ -25,6 +25,11 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
   const intersection = useIntersection(ref);
   // keyword for search
   const [keyword, setKeyword] = useState('');
+  // sanitize keyword
+  const keywordQuery = useMemo(
+    () => keyword.replace(/^\#+|\;/g, ''),
+    [keyword]
+  );
 
   const fetcher = async (url: string, accessToken: string) => {
     const res = await fetch(url, {
@@ -56,7 +61,7 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
     return [
       `${
         process.env.NEXT_PUBLIC_API_DOMAIN
-      }/procedures?keyword=${keyword}&page=${pageIndex + 1}`,
+      }/procedures?keyword=${keywordQuery}&page=${pageIndex + 1}`,
       accessToken,
     ];
   };

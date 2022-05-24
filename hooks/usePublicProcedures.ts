@@ -11,12 +11,18 @@ const usePublicProcedures = (
   const intersection = useIntersection(ref);
   // keyword for search
   const [keyword, setKeyword] = useState('');
+  // sanitize keyword
+  const keywordQuery = useMemo(
+    () => keyword.replace(/^\#+|\;/g, ''),
+    [keyword]
+  );
+
   // generate key of swr
   const getKey = (pageIndex: number, previousPageData: ProcedureIndex) => {
     if (previousPageData && !previousPageData.procedures?.length) return null;
     return `${
       process.env.NEXT_PUBLIC_API_DOMAIN
-    }/public_procedures?keyword=${keyword}&page=${pageIndex + 1}`;
+    }/public_procedures?keyword=${keywordQuery}&page=${pageIndex + 1}`;
   };
   const {
     data: procedureList,
