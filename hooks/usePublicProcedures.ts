@@ -52,20 +52,8 @@ const usePublicProcedures = (
     setSize(size + 1);
   };
 
-  // reset data when keyword changed
+  // reset page when keyword changed
   useEffect(() => {
-    mutate([
-      {
-        procedures: [],
-        pagination: {
-          itemsCount: 0,
-          currentPage: 1,
-          totalPages: 1,
-          isFirst: true,
-          isLast: true,
-        },
-      },
-    ]);
     setSize(1);
   }, [keyword]);
 

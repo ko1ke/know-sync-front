@@ -108,9 +108,8 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
     }
   }, [intersection, isReachingEnd]);
 
-  // reset data when keyword changed
+  // reset page when keyword changed
   useEffect(() => {
-    mutate(initialData);
     setSize(1);
   }, [keyword]);
 
