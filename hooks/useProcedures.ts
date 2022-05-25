@@ -140,7 +140,7 @@ const useProcedures = (ref: React.MutableRefObject<HTMLDivElement>) => {
               pagination: p.pagination,
             };
           });
-          mutate(newList);
+          mutate(newList, false);
           toast.success('削除しました');
         } else {
           toast.error('エラーにより、削除できませんでした');
