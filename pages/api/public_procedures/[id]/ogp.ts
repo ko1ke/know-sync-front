@@ -52,8 +52,8 @@ function createTextLines(
   return lines;
 }
 
-registerFont(path.resolve('./fonts/HannariMincho-Regular.otf'), {
-  family: 'HannariMincho',
+registerFont(path.resolve('./fonts/Senobi-Gothic-Regular.ttf'), {
+  family: 'Senobi-Gothic',
 });
 
 const fetcher = (url: string) =>
@@ -79,7 +79,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     path.resolve('./images/ogp_background.png')
   );
   context.drawImage(backgroundImage, 0, 0, width, height);
-  context.font = '20px HannariMincho';
+  context.font = '20px Senobi-Gothic';
   context.fillStyle = '#020202';
   context.textAlign = 'center';
   context.textBaseline = 'middle';
