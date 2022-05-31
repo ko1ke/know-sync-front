@@ -73,5 +73,10 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   );
   const json = await res.json();
   json.procedure.id = query.id;
-  return { props: json };
+  return {
+    props: {
+      procedure: json.procedure,
+      revalidate: 1,
+    },
+  };
 };

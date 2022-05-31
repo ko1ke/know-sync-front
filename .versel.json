@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/public_procedures/ogp.ts": {
+      "includeFiles": "fonts/**"
+    }
+  }
+}

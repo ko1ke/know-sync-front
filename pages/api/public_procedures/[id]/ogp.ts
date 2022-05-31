@@ -96,6 +96,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     'Content-Type': 'image/png',
     'Content-Length': buffer.length,
   });
-  debugger;
   res.end(buffer, 'binary');
 };
