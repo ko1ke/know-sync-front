@@ -11,6 +11,7 @@ import useFsDownloadUrl from '../../hooks/useFsDownloadUrl';
 import LoadingSpinner from '../common/LoadingSpinner';
 import ModalDialog from '../common/ModalDialog';
 import useBoolean from '../../hooks/useBoolean';
+import Image from 'next/image';
 
 type Props = Omit<ProcedureIndexItem, 'username'> & {
   deleteProcedure: (id: number) => void;
@@ -48,16 +49,26 @@ const ProcedureCard: React.FC<Props> = ({
                   <LoadingSpinner />
                 </div>
               ) : downloadUrl ? (
-                <img
+                <Image
+                  width={128}
+                  height={128}
+                  quality={75}
+                  priority={false}
+                  loading={'lazy'}
                   src={downloadUrl}
                   alt="eye-catch-img"
-                  className=" w-32 h-32 object-cover"
+                  className="w-32 h-32 object-cover"
                 />
               ) : (
-                <img
+                <Image
                   src={noteImageBase64}
+                  width={128}
+                  height={128}
+                  quality={75}
+                  priority={false}
+                  loading={'lazy'}
                   alt="alt-eye-catch-img"
-                  className=" w-32 h-32 object-cover"
+                  className="w-32 h-32 object-cover"
                 />
               )}
             </div>

@@ -9,6 +9,7 @@ import Tippy from '@tippyjs/react';
 import DateFormatter from '../common/DateFormatter';
 import useFsDownloadUrl from '../../hooks/useFsDownloadUrl';
 import LoadingSpinner from '../common/LoadingSpinner';
+import Image from 'next/image';
 
 type Props = ProcedureIndexItem;
 
@@ -34,16 +35,27 @@ const PublicProcedureCard: React.FC<Props> = ({
                   <LoadingSpinner />
                 </div>
               ) : downloadUrl ? (
-                <img
+                <Image
+                  id={`eye-catch-${id}`}
+                  width={128}
+                  height={128}
+                  quality={75}
+                  priority={false}
+                  loading={'lazy'}
                   src={downloadUrl}
                   alt="eye-catch-img"
                   className=" w-32 h-32 object-cover"
                 />
               ) : (
-                <img
+                <Image
                   src={noteImageBase64}
+                  width={128}
+                  height={128}
+                  quality={75}
+                  priority={false}
+                  loading={'lazy'}
                   alt="alt-eye-catch-img"
-                  className=" w-32 h-32 object-cover"
+                  className="w-32 h-32 object-cover"
                 />
               )}
             </div>
