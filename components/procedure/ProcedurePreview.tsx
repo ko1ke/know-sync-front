@@ -20,12 +20,20 @@ const ProcedurePreview: React.FC<Props> = ({ title, content, steps }) => {
                 {step.dataUrl ? (
                   <div>
                     <div className="flex justify-center">
-                      <img src={step.dataUrl} className="max-h-80 m-5" />
+                      <img
+                        src={step.dataUrl}
+                        className="max-h-80 m-5"
+                        alt="step-image"
+                      />
                     </div>
                   </div>
                 ) : step.downloadUrl ? (
                   <div className="flex justify-center">
-                    <img src={step.downloadUrl} className="max-h-80 m-5" />
+                    <img
+                      src={step.downloadUrl}
+                      className="max-h-80 m-5"
+                      alt="step-image"
+                    />
                   </div>
                 ) : (
                   <div></div>

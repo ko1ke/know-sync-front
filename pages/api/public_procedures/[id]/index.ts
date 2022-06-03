@@ -11,7 +11,10 @@ const fetcher = (url: string) =>
     },
   }).then((res) => res.json() as Promise<ProcedureFormProps>);
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const getPublicProcedure = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
   const id = req.query.id as string;
   const data = await fetcher(
     `${process.env.NEXT_PUBLIC_API_DOMAIN}/public_procedures/${id}`
@@ -34,3 +37,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   await res.status(200).json({ procedure: data });
 };
+
+export default getPublicProcedure;

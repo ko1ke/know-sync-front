@@ -48,29 +48,32 @@ const MyProcedureStepImageInput: React.FC<Props> = ({
         return { ...prevValues, steps: steps };
       });
     }
-  }, [step.imgName]);
+  }, [step.imgName, index, setValues]);
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    if (!acceptedFiles[0]) return;
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      if (!acceptedFiles[0]) return;
 
-    const compressOption = {}; // use default values
-    try {
-      const compressFile = await imageCompression(
-        acceptedFiles[0],
-        compressOption
-      );
-      const url = await imageCompression.getDataUrlFromFile(compressFile);
-      setValues((prevValues) => {
-        const { steps } = prevValues;
-        steps[index]['img'] = compressFile;
-        steps[index]['dataUrl'] = url;
-        steps[index]['downloadUrl'] = '';
-        return { ...prevValues, steps: steps };
-      });
-    } catch (error) {
-      alert(error);
-    }
-  }, []);
+      const compressOption = {}; // use default values
+      try {
+        const compressFile = await imageCompression(
+          acceptedFiles[0],
+          compressOption
+        );
+        const url = await imageCompression.getDataUrlFromFile(compressFile);
+        setValues((prevValues) => {
+          const { steps } = prevValues;
+          steps[index]['img'] = compressFile;
+          steps[index]['dataUrl'] = url;
+          steps[index]['downloadUrl'] = '';
+          return { ...prevValues, steps: steps };
+        });
+      } catch (error) {
+        alert(error);
+      }
+    },
+    [index, setValues]
+  );
 
   const onDropRejected = () => {
     alert('3MB以下の画像データ（jpeg/png/gif');
@@ -129,12 +132,12 @@ const MyProcedureStepImageInput: React.FC<Props> = ({
         {step.dataUrl ? (
           <div>
             <div className="flex justify-center">
-              <img src={step.dataUrl} className="max-h-80" />
+              <img src={step.dataUrl} className="max-h-80" alt="step-image" />
             </div>
           </div>
         ) : step.downloadUrl ? (
           <div className="flex justify-center">
-            <img src={step.downloadUrl} className="max-h-80" />
+            <img src={step.downloadUrl} className="max-h-80" alt="step-image" />
           </div>
         ) : (
           <div>

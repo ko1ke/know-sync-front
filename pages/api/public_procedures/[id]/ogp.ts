@@ -63,7 +63,7 @@ const fetcher = (url: string) =>
     },
   }).then((res) => res.json() as Promise<ProcedureFormProps>);
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const getOgp = async (req: NextApiRequest, res: NextApiResponse) => {
   const id = req.query.id as string;
 
   const data = await fetcher(
@@ -98,3 +98,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   });
   res.end(buffer, 'binary');
 };
+
+export default getOgp;

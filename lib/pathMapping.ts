@@ -1,4 +1,4 @@
-export default [
+const mapping = [
   {
     name: '公開投稿一覧',
     path: '/public_procedures',
@@ -63,3 +63,5 @@ export default [
     useOnNav: true,
   },
 ];
+
+export default mapping;
