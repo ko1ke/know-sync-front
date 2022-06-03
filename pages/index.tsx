@@ -17,7 +17,7 @@ const Home: NextPage = () => {
 
   return (
     <div className="pt-32 pb-12 px-6 md:pt-40 md:pb-20 md:px-8">
-      <div className="text-center pb-20 md:pb-24">
+      <div className="text-center pb-16 md:pb-20">
         <h1
           className="text-5xl md:text-6xl font-extrabold tracking-tight mb-8 leading-normal"
           data-aos="zoom-y-out"
@@ -58,7 +58,8 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="text-center pb-12 md:pb-16">
+
+      <div className="text-center pb-10 md:pb-14">
         <h2
           className="text-4xl md:text-5xl font-bold tracking-widest leading-normal"
           data-aos="zoom-y-out"
@@ -66,64 +67,67 @@ const Home: NextPage = () => {
           特長
         </h2>
         <div
-          className="grid grid-cols-2 gap-4 px-12 my-20"
+          className="sm:flex sm:gap-4 px-12 my-12 sm:my-20"
           data-aos="fade-right"
         >
-          <div>
+          <div className="flex-1 my-3 sm:my-0">
             <h3 className="text-2xl md:text-3xl font-bold my-3">
-              マークダウン形式でスタイルを自由に設定
+              マークダウン形式でスタイルを設定可能
             </h3>
             <p className="text-lg text-gray-600">
-              タイトルや強調、箇条書きやハイパーリンクなどを手順の記載内容に自由に設定できます。
+              タイトルや強調、箇条書きやハイパーリンクなどの装飾を手順の記載内容に設定できます。プレーンなテキストよりもメリハリがつき、見どころがわかりやすい文書をデザインできます。
             </p>
           </div>
-          <Image
-            src="/app-sample-screen.gif"
-            alt="hero-image"
-            width={840}
-            height={619}
-          />
+          <div className="flex-1">
+            <Image
+              src="/markdown.gif"
+              alt="markdown"
+              width={1000}
+              height={710}
+            />
+          </div>
         </div>
         <div
-          className="grid grid-cols-2 gap-4 px-12 my-20"
+          className="sm:flex sm:gap-4 sm:flex-row-reverse px-12 my-12 sm:my-20"
           data-aos="fade-left"
         >
-          <Image
-            src="/600x400.png"
-            alt="dummy-image"
-            width={600}
-            height={400}
-          />
-          <div>
+          <div className="flex-1 my-3 sm:my-0">
             <h3 className="text-2xl md:text-3xl font-bold my-3">
-              twitterで簡単にシェア
+              公開・非公開の切り替え可能
+            </h3>
+            <p className="text-lg text-gray-600">
+              個人的なメモを書きたい、のようなプライベートな用途の場合は、投稿編集画面にて「公開する」のチェックを外せば非公開となり、外部から閲覧できないようになります。
+            </p>
+          </div>
+          <div className="flex-1">
+            <Image
+              src="/publication-switch.gif"
+              alt="publication-switch"
+              width={632}
+              height={483}
+            />
+          </div>
+        </div>
+        <div
+          className="sm:flex sm:gap-4 px-12 my-12 sm:my-20"
+          data-aos="fade-right"
+        >
+          <div className="flex-1 my-3 sm:my-0">
+            <h3 className="text-2xl md:text-3xl font-bold my-3">
+              Twitterで簡単にシェア
             </h3>
             <p className="text-lg text-gray-600">
               ボタンを押せば、公開中の投稿を簡単にシェアできます。
             </p>
           </div>
-        </div>
-        <div
-          className="grid grid-cols-2 gap-4 px-12 my-20"
-          data-aos="fade-right"
-        >
-          <div>
-            <h3 className="text-2xl md:text-3xl font-bold my-3">
-              Lorem ipsum dolor
-            </h3>
-            <p className="text-lg text-gray-600">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-              quas, maiores perferendis ducimus, quibusdam, harum qui a eligendi
-              fugiat aliquam atque laborum. Accusamus dolorem id alias rem error
-              minima facere?
-            </p>
+          <div className="flex-1">
+            <Image
+              src="/twitter-share.gif"
+              alt="twitter-share"
+              width={896}
+              height={471}
+            />
           </div>
-          <Image
-            src="/600x400.png"
-            alt="dummy-image"
-            width={600}
-            height={400}
-          />
         </div>
       </div>
     </div>
