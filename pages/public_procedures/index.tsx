@@ -30,7 +30,10 @@ const PublicProcedures: NextPage<Props> = ({ publicProcedures }) => {
       </Head>
       <div>
         <Title text={title} />
-        <SearchInput placeholder="タイトルで検索" setKeyword={setKeyword} />
+        <SearchInput
+          placeholder="タイトル or ユーザー名で検索"
+          setKeyword={setKeyword}
+        />
         {!procedures && <LoadingBar />}
         {error && <>エラー発生</>}
         {procedures &&
