@@ -76,7 +76,7 @@ const MyProcedureStepImageInput: React.FC<Props> = ({
   );
 
   const onDropRejected = () => {
-    alert('3MB以下の画像データ（jpeg/png/gif');
+    alert('画像は5MB以下のjpeg/png/gifのみ有効です。');
   };
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -84,7 +84,7 @@ const MyProcedureStepImageInput: React.FC<Props> = ({
     onDropRejected,
     multiple: false,
     accept: 'image/jpeg, image/png, image/gif',
-    maxSize: 3 * 1024 ** 2, //3MB
+    maxSize: 5 * 1024 ** 2, //5MB
   });
 
   const handleDeleteImage = () => {
