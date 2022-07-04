@@ -54,7 +54,12 @@ const MyProcedureStepImageInput: React.FC<Props> = ({
     async (acceptedFiles: File[]) => {
       if (!acceptedFiles[0]) return;
 
-      const compressOption = {}; // use default values
+      const compressOption = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 640,
+        useWebWorker: true,
+      };
+
       try {
         const compressFile = await imageCompression(
           acceptedFiles[0],
@@ -76,7 +81,7 @@ const MyProcedureStepImageInput: React.FC<Props> = ({
   );
 
   const onDropRejected = () => {
-    alert('画像は5MB以下のjpeg/png/gifのみ有効です。');
+    alert('画像はjpeg/png/gifのみ有効です。');
   };
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -84,7 +89,6 @@ const MyProcedureStepImageInput: React.FC<Props> = ({
     onDropRejected,
     multiple: false,
     accept: 'image/jpeg, image/png, image/gif',
-    maxSize: 5 * 1024 ** 2, //5MB
   });
 
   const handleDeleteImage = () => {
