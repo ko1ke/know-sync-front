@@ -1,7 +1,7 @@
 import React from 'react';
 import { storage } from '../../lib/firebase';
-import { ref, uploadBytes, uploadBytesResumable } from 'firebase/storage';
-import { ProcedureFormProps, Step } from '../../types/Procedure';
+import { ref, uploadBytes } from 'firebase/storage';
+import { ProcedureFormProps } from '../../types/Procedure';
 import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
 import FormikTextInput from '../common/FormikTextInput';
@@ -22,40 +22,22 @@ type Props = {
 };
 
 const uploadImg = async (uploadName: string, img: File | undefined) => {
-  return new Promise<void>((resolve, reject) => {
-    if (!img) {
-      resolve();
-    } else {
-      const storageRef = ref(storage, `/stepImages/${uploadName}`);
-      const uploadTask = uploadBytesResumable(storageRef, img);
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          // Observe state change events such as progress, pause, and resume
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
-          switch (snapshot.state) {
-            case 'paused':
-              console.log('Upload is paused');
-              break;
-            case 'running':
-              console.log('Upload is running');
-              break;
-          }
-        },
-        (error) => {
-          // Handle unsuccessful uploads
-          console.log(error);
-          reject(error);
-        },
-        async () => {
-          resolve();
-        }
-      );
-    }
-  });
+  if (!img) {
+    return;
+  } else {
+    const imgPath = `stepImages/${uploadName}`;
+    const storageRef = ref(storage, imgPath);
+    const metadata = {
+      contentType: img.type,
+    };
+    await uploadBytes(storageRef, img, metadata)
+      .then((_snapshot) => {
+        return;
+      })
+      .catch((error) => {
+        return error;
+      });
+  }
 };
 
 const MyProcedureForm: React.FC<Props> = ({
@@ -73,24 +55,20 @@ const MyProcedureForm: React.FC<Props> = ({
         return step;
       }
     });
-
-    await Promise.all(
-      data.steps.map(async (step) => {
-        return await uploadImg(step.imgName, step.img);
-      })
-    ).then(() => {
-      const eyeCatchImgName = data.steps.find((s) => s.imgName)?.imgName || '';
-      const steps = data.steps.map((step) => {
-        const { content, imgName } = step;
-        return { content, imgName };
-      });
-      createOrUpdateProcedure({
-        title: data.title,
-        content: data.content,
-        publish: data.publish,
-        eyeCatchImgName: eyeCatchImgName,
-        steps: steps,
-      });
+    for await (const step of data.steps) {
+      await uploadImg(step.imgName, step.img);
+    }
+    const eyeCatchImgName = data.steps.find((s) => s.imgName)?.imgName || '';
+    const steps = data.steps.map((step) => {
+      const { content, imgName } = step;
+      return { content, imgName };
+    });
+    createOrUpdateProcedure({
+      title: data.title,
+      content: data.content,
+      publish: data.publish,
+      eyeCatchImgName: eyeCatchImgName,
+      steps: steps,
     });
   };
 
@@ -111,8 +89,9 @@ const MyProcedureForm: React.FC<Props> = ({
           ),
         })}
         onSubmit={(values, submitProps) => {
-          handleSubmit(values);
-          submitProps.setSubmitting(false);
+          handleSubmit(values).finally(() => {
+            submitProps.setSubmitting(false);
+          });
         }}
       >
         {({ values, setValues, isValid, isSubmitting }) => (
